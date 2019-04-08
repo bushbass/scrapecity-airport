@@ -1,20 +1,27 @@
-import { getHTML, getArrivalTimes } from "./lib/scraper";
-import express from "express";
-import db from "./lib/db";
+import { getHTML, getArrivalTimes } from './lib/scraper';
+import express from 'express';
+import db from './lib/db';
 
 const app = express();
 
-app.get("/scrape", async (req, res, next) => {
-  console.log("scraping");
+app.get('/', async (req, res, next) => {
+  console.log('scraping');
 
   const countObject = await getArrivalTimes(
-    await getHTML("https://www.airport-ewr.com/newark-arrivals")
+    await getHTML('https://www.airport-ewr.com/newark-arrivals')
   );
-  db.get("countObject")
+  db.get('countObject')
     .push({ date: Date.now(), countObject })
     .write();
 
-  res.json(countObject);
+  var html = '';
+
+  for (var hour in countObject) {
+    html += `<p>${Number(hour)} o'clock to ${Number(hour) + 1} o'clock - ${
+      countObject[hour]
+    } flights</p>`;
+  }
+  res.send(html);
 });
 
 const port = process.env.PORT || 3001;
