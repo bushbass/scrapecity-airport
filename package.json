@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node -r  esm index.js"
+    "dev": "nodemon -r  esm index.js --ignore db.json"
   },
   "author": "",
   "license": "ISC",
@@ -12,6 +12,7 @@
     "axios": "^0.18.0",
     "cheerio": "^1.0.0-rc.2",
     "esm": "^3.2.20",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "lowdb": "^1.0.0"
   }
 }
